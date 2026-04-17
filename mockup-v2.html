@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[Studio Name] — Ecological Landscaping & Heritage Lime Restoration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --putty:  #F6F5F0;
+  --slate:  #2C302E;
+  --sage:   #3B5249;
+  --rust:   #B85B3E;
+  --serif:  'Playfair Display', Georgia, serif;
+  --sans:   'Montserrat', 'Helvetica Neue', sans-serif;
+  --nav:    70px;
+}
+
+/* ═══════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--putty);
+  color: var(--slate);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grain overlay — makes background read as paper, not screen */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)' opacity='0.042'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9500;
+}
+
+/* ═══════════════════════════════════════════
+   ROUTING
+═══════════════════════════════════════════ */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9000;
+  height: var(--nav);
+  background: rgba(246,245,240,0.95);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--slate);
+  display: flex; align-items: center;
+  padding: 0 52px;
+}
+.nav-wrap {
+  width: 100%; max-width: 1500px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--sans); font-weight: 600;
+  font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--slate); cursor: pointer; user-select: none;
+  text-decoration: none;
+}
+.nav-logo span { color: var(--sage); }
+.nav-menu { display: flex; align-items: center; gap: 48px; }
+.nav-menu a {
+  font-family: var(--sans); font-weight: 500;
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--slate); text-decoration: none; cursor: pointer;
+  position: relative; padding-bottom: 3px;
+  transition: color 0.2s;
+}
+.nav-menu a::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 1px; background: var(--rust);
+  transition: width 0.28s ease;
+}
+.nav-menu a:hover { color: var(--sage); }
+.nav-menu a:hover::after, .nav-menu a.on::after { width: 100%; }
+.nav-menu a.on { color: var(--sage); }
+
+/* ═══════════════════════════════════════════
+   SHARED ATOMS
+═══════════════════════════════════════════ */
+.label {
+  display: block; font-family: var(--sans);
+  font-size: 9px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 18px;
+}
+.label-pale { color: rgba(246,245,240,0.55); }
+
+h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; }
+h1 { font-size: clamp(44px, 6vw, 92px); line-height: 1.0; }
+h2 { font-size: clamp(26px, 3.2vw, 50px); line-height: 1.12; }
+h3 { font-size: clamp(18px, 2vw, 28px); line-height: 1.3; }
+
+p {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 13.5px; line-height: 1.85;
+}
+
+.stroke { width: 40px; height: 1px; background: var(--rust); margin: 22px 0; }
+
+/* ─── BUTTONS ─── */
+.btn {
+  display: inline-block; cursor: pointer;
+  font-family: var(--sans); font-weight: 600;
+  font-size: 9.5px; letter-spacing: 0.24em; text-transform: uppercase;
+  border: 1px solid; padding: 14px 30px; text-decoration: none;
+  transition: background 0.22s, color 0.22s, border-color 0.22s;
+  line-height: 1;
+}
+.btn-sage { background: var(--sage); color: var(--putty); border-color: var(--sage); }
+.btn-sage:hover { background: var(--slate); border-color: var(--slate); }
+.btn-slate { background: transparent; color: var(--slate); border-color: var(--slate); }
+.btn-slate:hover { background: var(--slate); color: var(--putty); }
+.btn-pale { background: transparent; color: var(--putty); border-color: rgba(246,245,240,0.38); }
+.btn-pale:hover { background: var(--putty); color: var(--slate); border-color: var(--putty); }
+
+.arrow-link {
+  display: inline-block; font-family: var(--sans); font-weight: 600;
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--slate); text-decoration: none; cursor: pointer;
+  border-bottom: 1px solid var(--rust); padding-bottom: 2px;
+  transition: color 0.2s;
+}
+.arrow-link:hover { color: var(--rust); }
+.arrow-link.pale { color: var(--putty); }
+.arrow-link.pale:hover { color: var(--rust); }
+
+/* ─── IMAGE PLACEHOLDER SYSTEM ─── */
+/* Each gradient evokes the content type, not a generic grey box */
+.img {
+  position: relative; overflow: hidden;
+  display: block; width: 100%; height: 100%;
+}
+.img-land {
+  background:
+    linear-gradient(185deg, transparent 0%, rgba(0,0,0,0.35) 100%),
+    linear-gradient(155deg, #1b2a1e 0%, #263626 18%, #334d38 36%, #3b5249 55%, #4e6a58 72%, #607c68 88%, #748e7a 100%);
+}
+.img-gravel {
+  background:
+    linear-gradient(185deg, transparent 20%, rgba(0,0,0,0.28) 100%),
+    linear-gradient(170deg, #d4cbb0 0%, #bdb090 22%, #a89a78 42%, #8e8268 60%, #786e5c 78%, #64604c 100%);
+}
+.img-stone {
+  background:
+    linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.38) 100%),
+    linear-gradient(148deg, #cec8b2 0%, #b8b098 26%, #9e9480 48%, #847a6c 68%, #6c6458 84%, #54504a 100%);
+}
+.img-mortar {
+  background:
+    linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.4) 100%),
+    linear-gradient(142deg, #3c3830 0%, #4e4a40 26%, #605a50 48%, #726a5e 68%, #5e564c 84%, #4a4440 100%);
+}
+.img-dark {
+  background:
+    linear-gradient(180deg, transparent 25%, rgba(0,0,0,0.45) 100%),
+    linear-gradient(150deg, #1a1e18 0%, #262e22 25%, #343e2e 48%, #3e4a36 68%, #2e3c2e 88%, #222e22 100%);
+}
+.img-portrait {
+  background:
+    linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.3) 100%),
+    linear-gradient(158deg, #1e2c20 0%, #2c402e 30%, #3a5240 55%, #4a6452 74%, #3e5848 100%);
+}
+.img-caption {
+  position: absolute; bottom: 16px; right: 18px;
+  font-family: var(--sans); font-size: 8.5px; font-weight: 400;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(246,245,240,0.42);
+  writing-mode: vertical-rl; transform: rotate(180deg);
+}
+
+/* ═══════════════════════════════════════════
+   SHARED FOOTER
+═══════════════════════════════════════════ */
+.footer {
+  background: var(--slate);
+  padding: 72px 52px 40px;
+}
+.footer-wrap { max-width: 1500px; margin: 0 auto; }
+.footer-cols {
+  display: grid; grid-template-columns: 2.4fr 1fr 1fr 1fr;
+  gap: 60px; padding-bottom: 56px;
+  border-bottom: 1px solid rgba(246,245,240,0.1);
+}
+.footer-brand-name {
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--putty); margin-bottom: 10px;
+}
+.footer-brand-name span { color: var(--sage); }
+.footer-tagline {
+  font-family: var(--serif); font-style: italic;
+  font-size: 17px; color: rgba(246,245,240,0.4); margin-bottom: 20px;
+}
+.footer-about {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  line-height: 1.85; color: rgba(246,245,240,0.38); max-width: 310px;
+}
+.footer-col-head {
+  font-family: var(--sans); font-size: 8.5px; font-weight: 600;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: rgba(246,245,240,0.28); margin-bottom: 20px; display: block;
+}
+.footer-list { list-style: none; }
+.footer-list li { margin-bottom: 11px; }
+.footer-list a {
+  font-family: var(--sans); font-size: 11.5px; font-weight: 300;
+  color: rgba(246,245,240,0.55); text-decoration: none; cursor: pointer;
+  transition: color 0.2s;
+}
+.footer-list a:hover { color: var(--rust); }
+.footer-base {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 28px;
+}
+.footer-copy {
+  font-family: var(--sans); font-size: 9.5px; font-weight: 300;
+  letter-spacing: 0.06em; color: rgba(246,245,240,0.24);
+}
+.badges { display: flex; gap: 14px; }
+.badge {
+  font-family: var(--sans); font-size: 8px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(246,245,240,0.24);
+  border: 1px solid rgba(246,245,240,0.14); padding: 5px 9px;
+}
+
+/* ═══════════════════════════════════════════
+   PAGE 1 — HOME
+═══════════════════════════════════════════ */
+
+/* ── HERO: Full-bleed, high-impact ── */
+.hero {
+  position: relative;
+  height: 100vh; min-height: 640px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--slate);
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  /* Deep, dramatic landscape atmosphere */
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.56) 100%),
+    linear-gradient(155deg,
+      #0f1a12 0%, #162018 10%, #1e2c20 22%,
+      #283a28 36%, #324832 50%,
+      #3b5249 65%, #4a6858 78%,
+      #587870 90%, #466a5c 100%
+    );
+  transform: scale(1.01);
+  transition: transform 8s ease;
+}
+.hero:hover .hero-bg { transform: scale(1.04); }
+
+/* Horizontal survey lines — engineering detail, anti-slop */
+.hero-lines {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.hero-lines::before {
+  content: '';
+  position: absolute; top: 38%; left: 0; right: 0;
+  height: 1px; background: rgba(246,245,240,0.06);
+}
+.hero-lines::after {
+  content: '';
+  position: absolute; top: 62%; left: 0; right: 0;
+  height: 1px; background: rgba(246,245,240,0.06);
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 52px 72px; max-width: 1500px; margin: 0 auto;
+}
+.hero-coords {
+  position: absolute; top: calc(var(--nav) + 32px); left: 52px;
+  font-family: var(--sans); font-size: 8.5px; font-weight: 400;
+  letter-spacing: 0.24em; color: rgba(246,245,240,0.36);
+}
+.hero-img-credit {
+  position: absolute; top: calc(var(--nav) + 32px); right: 52px;
+  font-family: var(--sans); font-size: 8.5px; font-weight: 400;
+  letter-spacing: 0.2em; text-transform: uppercase; color: rgba(246,245,240,0.3);
+  writing-mode: vertical-rl;
+}
+
+.hero-h1 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(54px, 7.5vw, 116px);
+  line-height: 0.96;
+  color: var(--putty);
+  margin-bottom: 28px;
+  max-width: 780px;
+}
+.hero-h1 em { font-style: italic; color: #a8c8b0; }
+
+.hero-row {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 40px; flex-wrap: wrap;
+}
+.hero-sub {
+  font-family: var(--sans); font-size: 13px; font-weight: 300;
+  line-height: 1.85; color: rgba(246,245,240,0.78);
+  max-width: 460px;
+}
+.hero-actions { display: flex; gap: 14px; flex-shrink: 0; flex-wrap: wrap; }
+
+/* ── PHILOSOPHY ── */
+.philosophy {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid rgba(44,48,46,0.13);
+}
+.phil-l {
+  padding: 84px 64px 84px 52px;
+  border-right: 1px solid rgba(44,48,46,0.13);
+}
+.phil-r {
+  padding: 84px 52px 84px 64px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.phil-quote {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(22px, 2.8vw, 40px); line-height: 1.28;
+  color: var(--sage); margin-bottom: 52px;
+}
+.stat-pair { display: grid; grid-template-columns: 1fr 1fr; }
+.stat-cell {
+  padding: 22px 0;
+  border-top: 1px solid rgba(44,48,46,0.12);
+}
+.stat-cell + .stat-cell { padding-left: 36px; border-left: 1px solid rgba(44,48,46,0.12); }
+.stat-n { font-family: var(--serif); font-size: 54px; font-weight: 700; line-height: 1; color: var(--slate); }
+.stat-l {
+  font-family: var(--sans); font-size: 9px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(44,48,46,0.42); margin-top: 5px;
+}
+
+/* ── SPLIT NAVIGATION HUB ── */
+.split-hub {
+  display: grid; grid-template-columns: 1fr 1fr;
+  height: 68vh; min-height: 500px;
+  border-bottom: 1px solid var(--slate);
+}
+.hub-label {
+  grid-column: 1 / -1;
+  display: none; /* label is inside each panel */
+}
+.hub-panel {
+  position: relative; overflow: hidden; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 52px;
+  transition: flex 0.4s ease;
+}
+.hub-panel:first-child { border-right: 1px solid rgba(246,245,240,0.12); }
+.hub-bg {
+  position: absolute; inset: 0;
+  transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.hub-panel:hover .hub-bg { transform: scale(1.05); }
+
+.hub-land .hub-bg {
+  background:
+    linear-gradient(175deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.72) 100%),
+    linear-gradient(158deg, #111a12 0%, #1c2e1e 22%, #2a4230 44%, #3b5249 64%, #4e6858 82%, #607a68 100%);
+}
+.hub-heritage .hub-bg {
+  background:
+    linear-gradient(175deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.72) 100%),
+    linear-gradient(158deg, #111110 0%, #1e1e1c 22%, #2c2c28 44%, #3c3c38 64%, #4a4a44 82%, #585852 100%);
+}
+
+.hub-content { position: relative; z-index: 2; }
+.hub-n {
+  font-family: var(--sans); font-size: 8.5px; font-weight: 600;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 10px;
+}
+.hub-title {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(30px, 4vw, 58px); line-height: 1.05;
+  color: var(--putty); margin-bottom: 18px;
+}
+.hub-desc {
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  line-height: 1.78; color: rgba(246,245,240,0.65);
+  max-width: 360px; margin-bottom: 28px;
+}
+.hub-cta {
+  display: inline-block; font-family: var(--sans); font-size: 9.5px;
+  font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--putty); text-decoration: none; cursor: pointer;
+  border-bottom: 1px solid var(--rust); padding-bottom: 2px;
+  transition: color 0.2s;
+}
+.hub-cta:hover { color: var(--rust); }
+
+/* ═══════════════════════════════════════════
+   PAGE 2 — ECOLOGICAL LANDSCAPING
+═══════════════════════════════════════════ */
+.page-head {
+  padding: calc(var(--nav) + 72px) 52px 64px;
+  border-bottom: 1px solid var(--slate);
+  max-width: 1500px; margin: 0 auto;
+}
+.page-head-grid { display: grid; grid-template-columns: 2.4fr 1fr; gap: 64px; align-items: end; }
+.page-head-meta p {
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  line-height: 1.85; color: rgba(44,48,46,0.55); text-align: right;
+}
+
+/* Service rows — alternating image/text */
+.svc-band {
+  max-width: 1500px; margin: 0 auto;
+}
+.svc-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid rgba(44,48,46,0.12);
+}
+.svc-row.flip .svc-image { order: -1; }
+.svc-copy { padding: 72px 60px; display: flex; flex-direction: column; justify-content: center; }
+.svc-ghost-n {
+  font-family: var(--serif); font-size: 96px; font-weight: 700;
+  color: rgba(44,48,46,0.05); line-height: 1; margin-bottom: -20px;
+}
+.svc-image { min-height: 440px; position: relative; }
+
+/* Gravel & Mineral Substrates — featured highlight block */
+.gravel-block {
+  background: var(--sage); padding: 92px 52px;
+}
+.gravel-inner {
+  max-width: 1500px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 88px; align-items: center;
+}
+.gravel-text h2 { color: var(--putty); }
+.gravel-text p { color: rgba(246,245,240,0.75); }
+.gravel-text .stroke { background: var(--rust); }
+.mineral-list { list-style: none; margin-top: 30px; }
+.mineral-list li {
+  font-family: var(--sans); font-size: 11.5px; font-weight: 400;
+  color: rgba(246,245,240,0.75); letter-spacing: 0.04em;
+  padding: 13px 0; border-bottom: 1px solid rgba(246,245,240,0.1);
+  display: flex; align-items: center; gap: 20px;
+}
+.mineral-list li::before { content: ''; width: 24px; height: 1px; background: var(--rust); flex-shrink: 0; }
+.gravel-img { min-height: 500px; position: relative; }
+
+/* ═══════════════════════════════════════════
+   PAGE 3 — HERITAGE LIME RESTORATION
+═══════════════════════════════════════════ */
+.heritage-intro {
+  max-width: 1500px; margin: 0 auto;
+  padding: 80px 52px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 88px;
+  border-bottom: 1px solid rgba(44,48,46,0.12);
+}
+
+.spec-tbl { width: 100%; border-collapse: collapse; margin-top: 28px; }
+.spec-tbl tr { border-bottom: 1px solid rgba(44,48,46,0.09); }
+.spec-tbl td { padding: 13px 0; font-family: var(--sans); font-size: 12px; font-weight: 300; vertical-align: top; }
+.spec-tbl td:first-child { font-weight: 500; letter-spacing: 0.04em; width: 46%; }
+.spec-tbl td:last-child { color: rgba(44,48,46,0.58); }
+
+.process-band {
+  max-width: 1500px; margin: 0 auto;
+  padding: 80px 52px;
+  border-bottom: 1px solid rgba(44,48,46,0.12);
+}
+.step-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border: 1px solid rgba(44,48,46,0.12); border-right: none; margin-top: 52px;
+}
+.step {
+  padding: 44px 34px;
+  border-right: 1px solid rgba(44,48,46,0.12);
+}
+.step-n {
+  font-family: var(--serif); font-size: 72px; font-weight: 700;
+  color: rgba(44,48,46,0.055); line-height: 1; margin-bottom: -14px;
+}
+.step h3 { font-size: 17px; margin-bottom: 12px; }
+.step p { font-size: 12px; color: rgba(44,48,46,0.62); }
+
+.arch-callout { background: var(--slate); padding: 80px 52px; }
+.arch-inner {
+  max-width: 1500px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr; gap: 88px; align-items: center;
+}
+.arch-inner h2 { color: var(--putty); margin-bottom: 20px; }
+.arch-inner p { color: rgba(246,245,240,0.68); }
+.arch-inner .label { color: var(--rust); }
+.arch-img { min-height: 360px; position: relative; }
+
+/* ═══════════════════════════════════════════
+   PAGE 4 — ABOUT & CONTACT
+═══════════════════════════════════════════ */
+.about-hero-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 74vh; border-bottom: 1px solid var(--slate);
+}
+.about-col-text {
+  padding: calc(var(--nav) + 72px) 64px 80px 52px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  border-right: 1px solid var(--slate);
+}
+.about-col-img { position: relative; min-height: 540px; }
+
+.areas-band {
+  max-width: 1500px; margin: 0 auto;
+  padding: 80px 52px;
+  border-bottom: 1px solid rgba(44,48,46,0.12);
+}
+.areas-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border: 1px solid rgba(44,48,46,0.12); border-right: none; margin-top: 48px;
+}
+.area {
+  padding: 44px 36px;
+  border-right: 1px solid rgba(44,48,46,0.12);
+}
+.area-name {
+  font-family: var(--serif); font-size: 30px; color: var(--sage);
+  margin-bottom: 12px;
+}
+
+.contact-band {
+  max-width: 1500px; margin: 0 auto;
+  padding: 80px 52px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 88px;
+}
+.contact-info p { margin-bottom: 28px; }
+.contact-row { border-top: 1px solid rgba(44,48,46,0.1); padding-top: 20px; margin-top: 20px; }
+.contact-row-label {
+  font-family: var(--sans); font-size: 8.5px; font-weight: 600;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: rgba(44,48,46,0.36); display: block; margin-bottom: 4px;
+}
+.contact-row-val {
+  font-family: var(--sans); font-size: 13.5px; font-weight: 400;
+  color: var(--slate);
+}
+
+/* Form */
+.fg { margin-bottom: 26px; }
+.fg label {
+  display: block; font-family: var(--sans); font-size: 8.5px; font-weight: 600;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: rgba(44,48,46,0.45); margin-bottom: 8px;
+}
+.fg input, .fg select, .fg textarea {
+  width: 100%; background: transparent;
+  border: none; border-bottom: 1px solid rgba(44,48,46,0.22);
+  padding: 9px 0; font-family: var(--sans); font-size: 13.5px; font-weight: 300;
+  color: var(--slate); outline: none; -webkit-appearance: none; appearance: none;
+  transition: border-color 0.22s;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-bottom-color: var(--rust); }
+.fg textarea { resize: none; height: 90px; }
+
+/* ═══════════════════════════════════════════
+   PAGE 5 — THE JOURNAL
+═══════════════════════════════════════════ */
+.journal-head {
+  max-width: 1500px; margin: 0 auto;
+  padding: calc(var(--nav) + 72px) 52px 0;
+}
+.journal-filters {
+  display: flex; gap: 0; margin-top: 44px;
+  border-bottom: 1px solid var(--slate);
+}
+.filt {
+  font-family: var(--sans); font-size: 9.5px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(44,48,46,0.38); background: none; border: none;
+  padding: 15px 36px 15px 0; cursor: pointer; position: relative;
+  transition: color 0.2s;
+}
+.filt::after {
+  content: ''; position: absolute; bottom: -1px; left: 0;
+  width: 0; height: 2px; background: var(--slate);
+  transition: width 0.24s ease;
+}
+.filt.on { color: var(--slate); }
+.filt.on::after { width: calc(100% - 36px); }
+.filt:hover { color: var(--slate); }
+
+.journal-body { max-width: 1500px; margin: 0 auto; padding: 64px 52px 88px; }
+
+/* Prominent dummy template banner */
+.template-banner {
+  border: 1px dashed rgba(59,82,73,0.4);
+  background: rgba(59,82,73,0.04);
+  padding: 24px 32px; margin-bottom: 52px;
+  display: flex; align-items: center; gap: 24px;
+}
+.template-icon {
+  width: 42px; height: 42px; background: var(--sage);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.template-icon svg { width: 18px; height: 18px; fill: var(--putty); }
+.template-text-head {
+  font-family: var(--sans); font-size: 9.5px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--sage);
+  margin-bottom: 4px;
+}
+.template-text-body {
+  font-family: var(--sans); font-size: 11.5px; font-weight: 300;
+  color: rgba(44,48,46,0.65); line-height: 1.6;
+}
+
+/* Journal grid — 12-column asymmetric */
+.jgrid { display: grid; grid-template-columns: repeat(12, 1fr); }
+
+.jcard { cursor: pointer; border-bottom: 1px solid rgba(44,48,46,0.12); transition: background 0.16s; }
+.jcard:hover { background: rgba(44,48,46,0.025); }
+
+.jcard.feat { grid-column: span 7; border-right: 1px solid rgba(44,48,46,0.12); }
+.jcard.side { grid-column: span 5; }
+.jcard.third { grid-column: span 4; border-right: 1px solid rgba(44,48,46,0.12); }
+.jcard.third:last-child { border-right: none; }
+.jcard.half { grid-column: span 6; border-right: 1px solid rgba(44,48,46,0.12); }
+.jcard.half:last-child { border-right: none; }
+
+.jimg { width: 100%; position: relative; overflow: hidden; }
+.jimg.h-xl { height: 400px; }
+.jimg.h-lg { height: 280px; }
+.jimg.h-md { height: 230px; }
+.jimg-inner { width: 100%; height: 100%; }
+
+.jmeta { padding: 26px 32px 30px; }
+.jcard.feat .jmeta { padding: 30px 40px 36px; }
+.jtag { font-family: var(--sans); font-size: 8.5px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--rust); margin-bottom: 9px; display: block; }
+.jtitle { font-family: var(--serif); font-weight: 400; line-height: 1.28; color: var(--slate); margin-bottom: 11px; }
+.jcard.feat .jtitle { font-size: clamp(20px, 2.4vw, 30px); }
+.jcard.side .jtitle { font-size: clamp(16px, 1.8vw, 21px); }
+.jcard.third .jtitle, .jcard.half .jtitle { font-size: 16px; }
+.jexcerpt { font-family: var(--sans); font-size: 12px; font-weight: 300; line-height: 1.75; color: rgba(44,48,46,0.58); margin-bottom: 14px; }
+.jdate { font-family: var(--sans); font-size: 8.5px; font-weight: 400; letter-spacing: 0.1em; color: rgba(44,48,46,0.34); }
+
+/* Dummy post template card */
+.jcard.template-card {
+  grid-column: span 12;
+  border: 1px dashed rgba(59,82,73,0.3);
+  background: rgba(59,82,73,0.02);
+  margin-top: 48px;
+  display: none; /* shown only if filter is off */
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════ */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page.active .a1 { animation: riseIn 0.6s 0.04s both ease; }
+.page.active .a2 { animation: riseIn 0.6s 0.16s both ease; }
+.page.active .a3 { animation: riseIn 0.6s 0.28s both ease; }
+.page.active .a4 { animation: riseIn 0.6s 0.40s both ease; }
+
+</style>
+</head>
+<body>
+
+<!-- ░░░░░░░░░░░░░░░░░░ NAV ░░░░░░░░░░░░░░░░░░ -->
+<nav>
+  <div class="nav-wrap">
+    <div class="nav-logo" onclick="go('home')">[Studio Name]</div>
+    <div class="nav-menu">
+      <a id="n-land"     onclick="go('landscapes')">Ecological Landscaping</a>
+      <a id="n-her"      onclick="go('heritage')">Heritage Restoration</a>
+      <a id="n-about"    onclick="go('about')">About &amp; Contact</a>
+      <a id="n-journal"  onclick="go('journal')">The Journal</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ░░░░░░░░░░░░░░░░░░ HOME ░░░░░░░░░░░░░░░░░░ -->
+<div id="page-home" class="page active">
+
+  <!-- 1 — HERO: Full-bleed, high-impact landscape image -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+    <span class="hero-coords">52.7°N / 3.1°W — Wales &amp; The Borders</span>
+    <span class="hero-img-credit">Hero landscape placeholder — replace with client photograph</span>
+    <div class="hero-content" style="max-width:unset;">
+      <div style="max-width:1500px;margin:0 auto;width:100%;">
+        <h1 class="hero-h1 a1">Nature.<br><em>Refined.</em></h1>
+        <div class="hero-row">
+          <p class="hero-sub a2">We build living landscapes and restore ancient stonework — with the precision of engineers and the patience of ecologists. Serving high-net-worth clients and architects across Wales, Cheshire, and Shropshire.</p>
+          <div class="hero-actions a3">
+            <button class="btn btn-sage" onclick="go('landscapes')">Ecological Landscaping</button>
+            <button class="btn btn-pale" onclick="go('heritage')">Heritage Restoration</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 — PHILOSOPHY INTRODUCTION -->
+  <section class="philosophy">
+    <div class="phil-l">
+      <span class="label">— Our philosophy</span>
+      <h2>The deliberate tension between hard engineering and soft ecology</h2>
+      <div class="stroke"></div>
+      <p style="margin-bottom:20px;">Every scheme begins with a geological and ecological survey. We believe the best landscapes are not planted — they are curated from the native substrate outward. Species selection follows drainage calculus; density follows soil mineralogy.</p>
+      <p style="margin-bottom:36px;">Our heritage lime work applies the same rigour. Each mortar mix is spectrographically matched to the host stone before a single joint is opened. No assumptions. Only evidence.</p>
+      <span class="arrow-link" onclick="go('about')">Read our founding story</span>
+    </div>
+    <div class="phil-r">
+      <p class="phil-quote">"The land does not need improving. It needs understanding."</p>
+      <div>
+        <div class="stat-pair">
+          <div class="stat-cell">
+            <div class="stat-n">18</div>
+            <div class="stat-l">Years Field Practice</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-n">97%</div>
+            <div class="stat-l">Native Establishment Rate</div>
+          </div>
+        </div>
+        <div class="stat-pair">
+          <div class="stat-cell" style="border-top:1px solid rgba(44,48,46,0.12);">
+            <div class="stat-n">M·2</div>
+            <div class="stat-l">NHL Mortar Classification</div>
+          </div>
+          <div class="stat-cell" style="border-top:1px solid rgba(44,48,46,0.12);border-left:1px solid rgba(44,48,46,0.12);padding-left:36px;">
+            <div class="stat-n">3</div>
+            <div class="stat-l">Service Regions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 — SPLIT NAVIGATION HUB (required) -->
+  <section class="split-hub">
+    <div class="hub-panel hub-land" onclick="go('landscapes')">
+      <div class="hub-bg"></div>
+      <div class="hub-content">
+        <div class="hub-n">— 01 / Service</div>
+        <h2 class="hub-title">Ecological<br>Landscaping</h2>
+        <p class="hub-desc">Designed ecologies grounded in native flora, mineral substrate planting, and long-term habitat engineering. From formal gravel gardens to rewilded upland meadows.</p>
+        <span class="hub-cta">Explore the practice</span>
+      </div>
+    </div>
+    <div class="hub-panel hub-heritage" onclick="go('heritage')">
+      <div class="hub-bg"></div>
+      <div class="hub-content">
+        <div class="hub-n">— 02 / Service</div>
+        <h2 class="hub-title">Heritage Lime<br>Restoration</h2>
+        <p class="hub-desc">Bespoke lime mortars, M-Class extraction analysis, and structural repointing for listed buildings, period estates, and architect-led conservation projects.</p>
+        <span class="hub-cta">Explore the practice</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-wrap">
+      <div class="footer-cols">
+        <div>
+          <div class="footer-brand-name">[Studio Name]</div>
+          <div class="footer-tagline">Nature. Refined.</div>
+          <p class="footer-about">Ecological landscaping and heritage lime restoration for high-net-worth clients, conservation architects, and period estate owners across Wales, Cheshire, and Shropshire.</p>
+        </div>
+        <div>
+          <span class="footer-col-head">Services</span>
+          <ul class="footer-list">
+            <li><a onclick="go('landscapes')">Ecological Landscaping</a></li>
+            <li><a onclick="go('landscapes')">Gravel &amp; Mineral Gardens</a></li>
+            <li><a onclick="go('heritage')">Heritage Lime Restoration</a></li>
+            <li><a onclick="go('heritage')">Mortar Specification</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer-col-head">Studio</span>
+          <ul class="footer-list">
+            <li><a onclick="go('about')">Our Story</a></li>
+            <li><a onclick="go('journal')">The Journal</a></li>
+            <li><a onclick="go('about')">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer-col-head">Service Regions</span>
+          <ul class="footer-list">
+            <li><a>Wales</a></li>
+            <li><a>Cheshire</a></li>
+            <li><a>Shropshire</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-base">
+        <p class="footer-copy">© 2025 [Studio Name]. Registered in England &amp; Wales. All rights reserved.</p>
+        <div class="badges">
+          <span class="badge">Cadw Approved</span>
+          <span class="badge">ICCROM</span>
+          <span class="badge">RHS Partner</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ░░░░░░░░░░░░░░░░░░ ECOLOGICAL LANDSCAPING ░░░░░░░░░░░░░░░░░░ -->
+<div id="page-landscapes" class="page">
+
+  <div class="page-head">
+    <span class="label a1">— 01 / Ecological Landscaping</span>
+    <div class="page-head-grid a2">
+      <h1>Living ground.<br><em style="font-style:italic;color:var(--sage);">Precisely made.</em></h1>
+      <div class="page-head-meta">
+        <p>Our landscape practice spans formal courtyard gardens to multi-hectare estate rewilding. Every scheme is anchored in ecological survey data — not aesthetic preference or catalogue selection.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="svc-band">
+
+    <!-- Service 01 -->
+    <div class="svc-row">
+      <div class="svc-copy">
+        <div class="svc-ghost-n">01</div>
+        <span class="label">Planting Design</span>
+        <h2>Native flora. Selected by soil, not by catalogue.</h2>
+        <div class="stroke"></div>
+        <p style="margin-bottom:18px;">Our species palettes are drawn exclusively from locally-native provenance stock, selected against a baseline soil and hydrology survey. We do not use horticultural cultivars within designated ecological zones.</p>
+        <p style="color:rgba(44,48,46,0.62);font-size:13px;">Every scheme includes a five-year establishment monitoring programme with annual species-density reports delivered to the client and, where applicable, to the Local Planning Authority.</p>
+      </div>
+      <div class="svc-image img-land">
+        <span class="img-caption">Upland Meadow, Ceredigion 2023</span>
+      </div>
+    </div>
+
+    <!-- Service 02 -->
+    <div class="svc-row flip">
+      <div class="svc-copy">
+        <div class="svc-ghost-n">02</div>
+        <span class="label">Drainage &amp; Earthworks</span>
+        <h2>Structural groundwork engineered to last.</h2>
+        <div class="stroke"></div>
+        <p style="margin-bottom:18px;">Our Royal Navy engineering background shapes everything we do underground. Soakaway design, land drainage, retaining walls, and permeable surfacing are calculated from first principles — not from specification sheets or default formulae.</p>
+        <p style="color:rgba(44,48,46,0.62);font-size:13px;">We work alongside structural engineers and hydrologists on complex schemes, providing fully documented As-Built drawings and hydraulic calculations at project close.</p>
+      </div>
+      <div class="svc-image img-mortar">
+        <span class="img-caption">Dry-Stone Retaining, Powys 2024</span>
+      </div>
+    </div>
+
+    <!-- Service 03 -->
+    <div class="svc-row">
+      <div class="svc-copy">
+        <div class="svc-ghost-n">03</div>
+        <span class="label">Estate &amp; Formal Gardens</span>
+        <h2>Formal structure. Ecological intelligence beneath.</h2>
+        <div class="stroke"></div>
+        <p style="margin-bottom:18px;">For private clients and listed estate owners, we design gardens that hold architectural rigour at the surface while operating as functioning habitats below. Box hedging, pleached avenues, and formal lawns coexist with wildflower margins and insect corridors.</p>
+        <p style="color:rgba(44,48,46,0.62);font-size:13px;">We collaborate closely with the client's architect and planning consultants from feasibility through to completion, with full contract administration available under JCT Minor Works.</p>
+      </div>
+      <div class="svc-image img-dark">
+        <span class="img-caption">Formal Garden Study, Cheshire 2023</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Gravel Gardens & Mineral Substrates — highlighted section (required) -->
+  <section class="gravel-block">
+    <div class="gravel-inner">
+      <div class="gravel-text">
+        <span class="label label-pale">— Featured Specialism</span>
+        <h2 style="color:var(--putty);margin-bottom:16px;">Gravel Gardens &amp;<br>Mineral Substrates</h2>
+        <div class="stroke"></div>
+        <p style="margin-bottom:20px;">Inspired by the work of Beth Chatto and grounded in geological precision, our gravel garden designs begin with a substrate specification — not a plant list. The mineral layer is the ecology; planting is the expression of those conditions.</p>
+        <p style="color:rgba(246,245,240,0.6);font-size:12.5px;margin-bottom:30px;">We source all aggregates from quarries matched to the regional geology of each site, ensuring the garden reads as genuinely native to its landscape from the outset.</p>
+        <ul class="mineral-list">
+          <li>Decomposed granite — low-fertility drainage base layer</li>
+          <li>Angular flint — chalk-land and Chiltern planting palettes</li>
+          <li>Crushed Carboniferous limestone — Welsh upland vernacular</li>
+          <li>Pea gravel over geotextile membrane — urban xeriscaping</li>
+          <li>Hoggin &amp; compressed shale — permeable rural pathways</li>
+        </ul>
+      </div>
+      <div class="gravel-img img-gravel" style="position:relative;">
+        <span class="img-caption" style="color:rgba(246,245,240,0.34);">Mineral Garden, Shropshire 2024</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-wrap">
+      <div class="footer-cols">
+        <div><div class="footer-brand-name">[Studio Name]</div><div class="footer-tagline">Nature. Refined.</div><p class="footer-about">Ecological landscaping and heritage lime restoration for high-net-worth clients across Wales, Cheshire, and Shropshire.</p></div>
+        <div><span class="footer-col-head">Services</span><ul class="footer-list"><li><a onclick="go('landscapes')">Ecological Landscaping</a></li><li><a onclick="go('heritage')">Heritage Restoration</a></li></ul></div>
+        <div><span class="footer-col-head">Studio</span><ul class="footer-list"><li><a onclick="go('about')">About Us</a></li><li><a onclick="go('journal')">The Journal</a></li><li><a onclick="go('about')">Contact</a></li></ul></div>
+        <div><span class="footer-col-head">Regions</span><ul class="footer-list"><li><a>Wales</a></li><li><a>Cheshire</a></li><li><a>Shropshire</a></li></ul></div>
+      </div>
+      <div class="footer-base"><p class="footer-copy">© 2025 [Studio Name]. Registered in England &amp; Wales.</p><div class="badges"><span class="badge">Cadw Approved</span><span class="badge">RHS Partner</span></div></div>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ░░░░░░░░░░░░░░░░░░ HERITAGE LIME RESTORATION ░░░░░░░░░░░░░░░░░░ -->
+<div id="page-heritage" class="page">
+
+  <div class="page-head">
+    <span class="label a1">— 02 / Heritage Lime Restoration</span>
+    <div class="page-head-grid a2">
+      <h1>Ancient stone.<br><em style="font-style:italic;color:var(--sage);">Matched precisely.</em></h1>
+      <div class="page-head-meta">
+        <p>For period property owners and conservation architects. Our lime work is underpinned by geological analysis, not approximation. Every mortar specification is unique to its host masonry.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technical content — M-Class extraction & mortar matching (required) -->
+  <div class="heritage-intro">
+    <div>
+      <span class="label">— The technical case</span>
+      <h2>Why mortar specification matters more than the application itself</h2>
+      <div class="stroke"></div>
+      <p style="margin-bottom:20px;">The single most common cause of masonry failure in listed buildings is the application of an incorrect binder. Portland cement introduced into historic joints causes stress fracture, moisture entrapment, and accelerated weathering of adjacent stone faces — the very faces it was applied to protect.</p>
+      <p style="margin-bottom:20px;">Our specification process begins with an <strong style="font-weight:500;">M-Class extraction</strong> — a physical sample of the original mortar matrix taken from multiple courses and zones, then analysed for aggregate grading, binder type, and hydraulic content. The results determine everything: lime classification, aggregate source, water-binder ratio, and curing regime.</p>
+      <p style="color:rgba(44,48,46,0.62);font-size:12.5px;">We hold access to natural hydraulic lime from certified UK and French sources, including feebly-hydraulic limes specifically for the most sensitive conservation contexts. All material is supplied with full documentation for planning and conservation officer approval.</p>
+    </div>
+    <div>
+      <span class="label">— Bespoke mortar matching matrix</span>
+      <table class="spec-tbl">
+        <tr><td>NHL 2 — Feebly Hydraulic</td><td>Soft ashlar, freestone, vulnerable carved detail, indoor plasterwork</td></tr>
+        <tr><td>NHL 3.5 — Moderately Hydraulic</td><td>General sandstone, brick, rubble core and general repointing</td></tr>
+        <tr><td>NHL 5 — Eminently Hydraulic</td><td>Below-ground, high-exposure, water-retaining structures</td></tr>
+        <tr><td>M-Class Bespoke</td><td>Listed buildings; full spectrographic aggregate matching</td></tr>
+        <tr><td>Gauged Lime Putty</td><td>Fine internal plasterwork, grouting, sensitive carved stone</td></tr>
+      </table>
+      <div style="height:200px;position:relative;margin-top:28px;" class="img-stone">
+        <span class="img-caption">M-Class Extraction Sample, Chirk 2023</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="process-band">
+    <span class="label">— Our method</span>
+    <h2>From survey to completion: a four-stage process</h2>
+    <div class="step-grid">
+      <div class="step">
+        <div class="step-n">01</div>
+        <h3>Mortar Extraction &amp; Analysis</h3>
+        <p>Samples are extracted from multiple courses and zones. Each is described for colour, aggregate composition, hardness, and binder type — producing a full M-Class record for the building.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <h3>Bespoke Mix Specification</h3>
+        <p>Using extraction data, we produce a mortar specification for each zone of work. Aggregate is sourced to match the original in size, angularity, and geological origin.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <h3>Sample Panel &amp; Approval</h3>
+        <p>Before production work begins, a sample panel is laid for visual and technical approval. For listed buildings, this is submitted to the conservation officer as consent documentation.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <h3>Execution &amp; Curing</h3>
+        <p>All work is carried out by our own trained operatives. Lime mortars require careful slow curing away from frost and direct sun. A written curing programme is provided with every contract.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Architect callout -->
+  <div class="arch-callout">
+    <div class="arch-inner">
+      <div>
+        <span class="label">— For conservation architects</span>
+        <h2>We prepare full mortar specifications for inclusion in your tender documentation</h2>
+        <p style="margin-bottom:16px;">If you are leading a heritage project requiring lime mortar specification, structural repointing, or internal plaster restoration, we can act as a specialist subcontractor or provide an independent specification document for competitive tender.</p>
+        <p style="color:rgba(246,245,240,0.5);font-size:12px;margin-bottom:36px;">We work under NEC4 and JCT contracts and provide full material certification, MSDS documentation, and photographic site records as standard deliverables on every commission.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <button class="btn btn-sage" onclick="go('about')">Discuss a Project</button>
+          <button class="btn btn-pale">Download Specification Guide</button>
+        </div>
+      </div>
+      <div class="arch-img img-mortar" style="position:relative;">
+        <span class="img-caption" style="color:rgba(246,245,240,0.3);">Repointing detail, Llangollen 2024</span>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-wrap">
+      <div class="footer-cols">
+        <div><div class="footer-brand-name">[Studio Name]</div><div class="footer-tagline">Nature. Refined.</div><p class="footer-about">Heritage lime restoration specialists serving Wales, Cheshire, and Shropshire.</p></div>
+        <div><span class="footer-col-head">Services</span><ul class="footer-list"><li><a onclick="go('landscapes')">Ecological Landscaping</a></li><li><a onclick="go('heritage')">Heritage Restoration</a></li></ul></div>
+        <div><span class="footer-col-head">Studio</span><ul class="footer-list"><li><a onclick="go('about')">About Us</a></li><li><a onclick="go('journal')">The Journal</a></li></ul></div>
+        <div><span class="footer-col-head">Regions</span><ul class="footer-list"><li><a>Wales</a></li><li><a>Cheshire</a></li><li><a>Shropshire</a></li></ul></div>
+      </div>
+      <div class="footer-base"><p class="footer-copy">© 2025 [Studio Name]. Registered in England &amp; Wales.</p><div class="badges"><span class="badge">Cadw Approved</span><span class="badge">ICCROM</span></div></div>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ░░░░░░░░░░░░░░░░░░ ABOUT & CONTACT ░░░░░░░░░░░░░░░░░░ -->
+<div id="page-about" class="page">
+
+  <!-- Trust-building hero with Royal Navy background (required) -->
+  <section class="about-hero-grid">
+    <div class="about-col-text">
+      <span class="label a1">— About the practice</span>
+      <h1 class="a2" style="margin-bottom:24px;">Built on precision.<br><em style="font-style:italic;color:var(--sage);">Rooted in place.</em></h1>
+      <div class="stroke"></div>
+      <p style="max-width:480px;margin-bottom:20px;" class="a3">[Studio Name] was founded by [Founder Name], a former Royal Navy marine engineering officer. Eighteen years of zero-tolerance fabrication, systems design, and precision maintenance in service gave [him/her/them] a methodology that no horticultural training could replicate.</p>
+      <p style="max-width:480px;color:rgba(44,48,46,0.62);font-size:13px;margin-bottom:40px;">The Royal Navy instills a discipline of rigorous pre-planning, systematic execution, and unflinching post-project review. That discipline now underpins every drainage calculation, every lime mix specification, and every habitat management plan we deliver — without exception.</p>
+      <span class="arrow-link a4" onclick="go('journal')">Read our Field Notes</span>
+    </div>
+    <div class="about-col-img">
+      <div class="img-portrait" style="width:100%;height:100%;min-height:540px;position:relative;">
+        <span class="img-caption" style="color:rgba(246,245,240,0.35);">[Founder portrait — replace with supplied photograph]</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Areas (required: Wales, Cheshire, Shropshire) -->
+  <div class="areas-band">
+    <span class="label">— Where we work</span>
+    <h2>Three regions. One standard of work.</h2>
+    <div class="areas-grid">
+      <div class="area">
+        <div class="area-name">Wales</div>
+        <div class="stroke" style="margin:14px 0;"></div>
+        <p style="font-size:12.5px;margin-bottom:18px;">Our heartland. From the Brecon Beacons to the Cambrian Mountains, we work across the full Welsh landscape spectrum — upland rewilding, lowland estate gardens, and the dense vernacular stone architecture of rural farmsteads and listed market towns.</p>
+        <p style="font-size:11px;color:rgba(44,48,46,0.42);">Cadw-registered. Experienced in Listed Building Consent procedures and Scheduled Monument working protocols.</p>
+      </div>
+      <div class="area">
+        <div class="area-name">Cheshire</div>
+        <div class="stroke" style="margin:14px 0;"></div>
+        <p style="font-size:12.5px;margin-bottom:18px;">The red-sandstone vernacular of Cheshire presents unique repointing and restoration challenges. We have completed multiple projects on period estate walls, stable blocks, and walled kitchen gardens for private clients and charitable trusts.</p>
+        <p style="font-size:11px;color:rgba(44,48,46,0.42);">Experienced with agricultural heritage buildings under PDR and full planning consent.</p>
+      </div>
+      <div class="area">
+        <div class="area-name">Shropshire</div>
+        <div class="stroke" style="margin:14px 0;"></div>
+        <p style="font-size:12.5px;margin-bottom:18px;">The landscape variety of Shropshire — from the Long Mynd to the Ironbridge Gorge — suits our dual specialism perfectly. Ecological restoration and structural conservation frequently run concurrently on our Shropshire commissions.</p>
+        <p style="font-size:11px;color:rgba(44,48,46,0.42);">Regular collaborator with Historic England and Shropshire Council's conservation team.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact form (required) -->
+  <div class="contact-band">
+    <div class="contact-info">
+      <span class="label">— Commission an enquiry</span>
+      <h2 style="margin-bottom:20px;">Initial site consultations are provided at no charge</h2>
+      <div class="stroke"></div>
+      <p>We offer an initial one-hour site visit at no cost. This allows us to assess suitability, scope the work, and confirm whether our specialism matches your project — before any fee commitment on either side.</p>
+      <div class="contact-row">
+        <span class="contact-row-label">Email</span>
+        <span class="contact-row-val">studio@[yourdomain].co.uk</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Studio Base</span>
+        <span class="contact-row-val">Welshpool, Powys, SY21</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Domain</span>
+        <span class="contact-row-val">ecolandscapes.co.uk (Hover)</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Service Regions</span>
+        <span class="contact-row-val">Wales · Cheshire · Shropshire</span>
+      </div>
+    </div>
+    <div>
+      <span class="label">— Enquiry form</span>
+      <div class="fg"><label>Full Name</label><input type="text" placeholder="Your name"></div>
+      <div class="fg"><label>Email Address</label><input type="email" placeholder="your@email.com"></div>
+      <div class="fg">
+        <label>Enquiry Type</label>
+        <select>
+          <option value="">Select a service</option>
+          <option>Ecological Landscaping</option>
+          <option>Gravel &amp; Mineral Garden</option>
+          <option>Heritage Lime Restoration</option>
+          <option>Mortar Specification (Architects)</option>
+          <option>Combined Landscape &amp; Restoration</option>
+          <option>General Enquiry</option>
+        </select>
+      </div>
+      <div class="fg"><label>Project Location</label><input type="text" placeholder="Town / County"></div>
+      <div class="fg"><label>Brief Project Description</label><textarea placeholder="Tell us about your site or building — as much or as little as you know at this stage."></textarea></div>
+      <button class="btn btn-sage" style="width:100%;text-align:center;">Send Enquiry</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-wrap">
+      <div class="footer-cols">
+        <div><div class="footer-brand-name">[Studio Name]</div><div class="footer-tagline">Nature. Refined.</div><p class="footer-about">Based in Welshpool, Powys. Serving Wales, Cheshire, and Shropshire.</p></div>
+        <div><span class="footer-col-head">Services</span><ul class="footer-list"><li><a onclick="go('landscapes')">Ecological Landscaping</a></li><li><a onclick="go('heritage')">Heritage Restoration</a></li></ul></div>
+        <div><span class="footer-col-head">Studio</span><ul class="footer-list"><li><a onclick="go('about')">About Us</a></li><li><a onclick="go('journal')">The Journal</a></li></ul></div>
+        <div><span class="footer-col-head">Regions</span><ul class="footer-list"><li><a>Wales</a></li><li><a>Cheshire</a></li><li><a>Shropshire</a></li></ul></div>
+      </div>
+      <div class="footer-base"><p class="footer-copy">© 2025 [Studio Name]. Registered in England &amp; Wales.</p><div class="badges"><span class="badge">Cadw Approved</span></div></div>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ░░░░░░░░░░░░░░░░░░ THE JOURNAL ░░░░░░░░░░░░░░░░░░ -->
+<div id="page-journal" class="page">
+
+  <div class="journal-head">
+    <span class="label a1">— The Journal</span>
+    <h1 class="a2" style="margin-bottom:10px;">Field Notes &amp; Case Studies</h1>
+    <p class="a3" style="font-size:13px;color:rgba(44,48,46,0.55);max-width:520px;">Writing on the theory and practice of ecological landscaping, heritage lime, and the intersection of engineering with biological stewardship.</p>
+
+    <!-- Two filter categories (required) -->
+    <div class="journal-filters">
+      <button class="filt on"  onclick="jFilter('all',this)">All</button>
+      <button class="filt"     onclick="jFilter('field-notes',this)">Field Notes</button>
+      <button class="filt"     onclick="jFilter('case-studies',this)">Case Studies</button>
+    </div>
+  </div>
+
+  <div class="journal-body">
+
+    <!-- DUMMY POST TEMPLATE — clearly labelled, ready to duplicate (required) -->
+    <div class="template-banner">
+      <div class="template-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4v16m-8-8h16"/></svg>
+      </div>
+      <div>
+        <div class="template-text-head">Squarespace: How to add a new post</div>
+        <div class="template-text-body">
+          In Squarespace: open <strong>The Journal</strong> page → click <strong>+ Add Post</strong> → write your content → in the right panel under <em>Categories</em>, select either <strong>Field Notes</strong> or <strong>Case Studies</strong>. The filter buttons above read directly from these category tags. The post card layout below is your template — duplicate any of the cards below when building in Squarespace.
+        </div>
+      </div>
+    </div>
+
+    <!-- Journal grid (required: grid-based, hybrid portfolio + articles) -->
+    <div class="jgrid" id="jgrid">
+
+      <!-- FEATURED: Field Notes article -->
+      <div class="jcard feat" data-cat="field-notes">
+        <div class="jimg h-xl">
+          <div class="jimg-inner img-gravel">
+            <span class="img-caption">Mineral substrate study, Shropshire 2024</span>
+          </div>
+        </div>
+        <div class="jmeta">
+          <span class="jtag">Field Notes</span>
+          <h2 class="jtitle">The Mineral Logic of a Dry Gravel Garden: substrate first, plants second</h2>
+          <p class="jexcerpt">Most gravel garden failures stem from a category error: treating aggregate as a mulch, rather than the primary growing medium. When we specify a mineral substrate, we are specifying an ecology — one defined by drainage rate, pH, thermal mass, and microbial activity. The plant palette is a consequence of those conditions, not a precondition for them.</p>
+          <span class="jdate">14 November 2024</span>
+        </div>
+      </div>
+
+      <!-- SIDE: Case Study -->
+      <div class="jcard side" data-cat="case-studies">
+        <div class="jimg h-lg">
+          <div class="jimg-inner img-stone">
+            <span class="img-caption">Llanrhaeadr Hall, Denbighshire</span>
+          </div>
+        </div>
+        <div class="jmeta">
+          <span class="jtag">Case Study</span>
+          <h2 class="jtitle">Llanrhaeadr Hall: A Three-Year Lime Survey and Repointing Programme</h2>
+          <p class="jexcerpt">A Grade II* listed country house required wholesale repointing following decades of Portland cement intervention. We document the extraction process, the aggregate matching, and the phased works across three seasons.</p>
+          <span class="jdate">3 September 2024</span>
+        </div>
+      </div>
+
+      <!-- THIRD x3 row -->
+      <div class="jcard third" data-cat="case-studies">
+        <div class="jimg h-md">
+          <div class="jimg-inner img-mortar">
+            <span class="img-caption">Chirk Gatehouse, Wrexham</span>
+          </div>
+        </div>
+        <div class="jmeta">
+          <span class="jtag">Case Study</span>
+          <h2 class="jtitle">Chirk Gatehouse: NHL 2 in a high-wind exposure zone</h2>
+          <p class="jexcerpt">A feebly-hydraulic lime in an eminently exposed location. The curing regime required management across two winters.</p>
+          <span class="jdate">7 July 2024</span>
+        </div>
+      </div>
+
+      <div class="jcard third" data-cat="field-notes">
+        <div class="jimg h-md">
+          <div class="jimg-inner img-dark">
+            <span class="img-caption">Upland meadow, Ceredigion</span>
+          </div>
+        </div>
+        <div class="jmeta">
+          <span class="jtag">Field Notes</span>
+          <h2 class="jtitle">Why the species-rich meadow is not a product — it is a process</h2>
+          <p class="jexcerpt">Clients ask for a meadow as though it were a specification item. Here is the five-year reality, and why year one looks like failure even when succeeding.</p>
+          <span class="jdate">12 May 2024</span>
+        </div>
+      </div>
+
+      <div class="jcard third" data-cat="field-notes">
+        <div class="jimg h-md">
+          <div class="jimg-inner img-gravel">
+            <span class="img-caption">Aggregate analysis, site lab</span>
+          </div>
+        </div>
+        <div class="jmeta">
+          <span class="jtag">Field Notes</span>
+          <h2 class="jtitle">NHL 3.5 is the wrong choice for most Welsh sandstone</h2>
+          <p class="jexcerpt">The instinct to default to a moderately-hydraulic lime for all external work is understandable but often incorrect. We present extraction data from six projects.</p>
+          <span class="jdate">19 March 2024</span>
+        </div>
+      </div>
+
+    </div><!-- /jgrid -->
+  </div><!-- /journal-body -->
+
+  <footer class="footer">
+    <div class="footer-wrap">
+      <div class="footer-cols">
+        <div><div class="footer-brand-name">[Studio Name]</div><div class="footer-tagline">Nature. Refined.</div><p class="footer-about">Writing on ecological landscaping, heritage lime restoration, and land engineering from the field.</p></div>
+        <div><span class="footer-col-head">Services</span><ul class="footer-list"><li><a onclick="go('landscapes')">Ecological Landscaping</a></li><li><a onclick="go('heritage')">Heritage Restoration</a></li></ul></div>
+        <div><span class="footer-col-head">Studio</span><ul class="footer-list"><li><a onclick="go('about')">About Us</a></li><li><a onclick="go('about')">Contact</a></li></ul></div>
+        <div><span class="footer-col-head">Regions</span><ul class="footer-list"><li><a>Wales</a></li><li><a>Cheshire</a></li><li><a>Shropshire</a></li></ul></div>
+      </div>
+      <div class="footer-base"><p class="footer-copy">© 2025 [Studio Name]. Registered in England &amp; Wales.</p><div class="badges"><span class="badge">Cadw Approved</span><span class="badge">RHS Partner</span></div></div>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ░░░░░░░░░░░░░░░░░░ JAVASCRIPT ░░░░░░░░░░░░░░░░░░ -->
+<script>
+const allPages = ['home','landscapes','heritage','about','journal'];
+const navMap   = { landscapes:'n-land', heritage:'n-her', about:'n-about', journal:'n-journal' };
+
+function go(name) {
+  allPages.forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if (el) el.classList.toggle('active', p === name);
+  });
+  Object.entries(navMap).forEach(([k, id]) => {
+    const link = document.getElementById(id);
+    if (link) link.classList.toggle('on', k === name);
+  });
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function jFilter(cat, btn) {
+  // Toggle button state
+  document.querySelectorAll('.filt').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+
+  // Show/hide cards
+  document.querySelectorAll('#jgrid .jcard').forEach(card => {
+    if (cat === 'all') {
+      card.style.display = '';
+    } else {
+      card.style.display = (card.dataset.cat === cat) ? '' : 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>
